@@ -1,5 +1,14 @@
 module.exports = (sequelize, DataTypes) => {
-  const MovieCast = sequelize.define('MovieCast', {}, { underscored: true });
+  const MovieCast = sequelize.define(
+    'MovieCast',
+    {
+      mainRole: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+    },
+    { underscored: true }
+  );
   MovieCast.associate = (db) => {
     MovieCast.belongsTo(db.Movie, {
       foreignKey: {

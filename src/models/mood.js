@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const Category = sequelize.define(
-    'Category',
+  const Mood = sequelize.define(
+    'Mood',
     {
       name: {
         type: DataTypes.STRING,
@@ -13,15 +13,15 @@ module.exports = (sequelize, DataTypes) => {
     { underscored: true }
   );
 
-  Category.associate = (db) => {
-    Category.hasMany(db.MovieCategory, {
+  Mood.associate = (db) => {
+    Mood.hasMany(db.MovieMood, {
       foreignKey: {
-        name: 'categoryId',
+        name: 'moodId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',
     });
   };
 
-  return Category;
+  return Mood;
 };

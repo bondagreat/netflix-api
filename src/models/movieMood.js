@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
-  const MovieCategory = sequelize.define(
-    'MovieCategory',
+  const MovieMood = sequelize.define(
+    'MovieMood',
     {},
     { underscored: true }
   );
-  MovieCategory.associate = (db) => {
-    MovieCategory.belongsTo(db.Movie, {
+  MovieMood.associate = (db) => {
+    MovieMood.belongsTo(db.Movie, {
       foreignKey: {
         name: 'movieId',
         allowNull: false,
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'RESTRICT',
     });
 
-    MovieCategory.belongsTo(db.Category, {
+    MovieMood.belongsTo(db.Mood, {
       foreignKey: {
         name: 'categoryId',
         allowNull: false,
@@ -22,5 +22,5 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  return MovieCategory;
+  return MovieMood;
 };

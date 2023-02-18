@@ -14,14 +14,6 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Cast.associate = (db) => {
-    Cast.hasMany(db.MovieMainCast, {
-      foreignKey: {
-        name: 'castId',
-        allowNull: false,
-      },
-      onDelete: 'RESTRICT',
-    });
-
     Cast.hasMany(db.MovieCast, {
       foreignKey: {
         name: 'castId',

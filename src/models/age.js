@@ -1,9 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
-  const Language = sequelize.define(
-    'Language',
+  const Age = sequelize.define(
+    'Age',
     {
       name: {
-        type: DataTypes.ENUM('English', 'Thai', 'Korean', 'Japanese', 'Spanish'),
+        type: DataTypes.ENUM('ALL', '7+', '13+', '16+', '18+'),
         allowNull: false,
         validate: {
           notEmpty: true,
@@ -13,5 +13,5 @@ module.exports = (sequelize, DataTypes) => {
     { underscored: true }
   );
 
-  return Language;
+  return Age;
 };

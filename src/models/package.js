@@ -2,10 +2,12 @@ module.exports = (sequelize, DataTypes) => {
   const Package = sequelize.define(
     'Package',
     {
-      name: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
       },
       price: {
         type: DataTypes.INTEGER,
@@ -26,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Package.associate = (db) => {
-    Transaction.hasMany(db.User, {
+    Package.hasMany(db.Transaction, {
       foreignKey: {
         name: 'packageId',
         allowNull: false,

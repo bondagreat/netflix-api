@@ -7,9 +7,14 @@ const registerSchema = Joi.object({
     'string.email': 'must be a valid email',
     'string.empty': 'email is required',
   }),
-  phone: Joi.string().trim().required().messages({
-    'string.empty': 'phone number is required',
-  }),
+  phone: Joi.string()
+    .pattern(/^[0-9]{10}$/)
+    .trim()
+    .required()
+    .messages({
+      'string.empty': 'phone number is required',
+      'string.match': 'must be a valid phone number',
+    }),
   password: Joi.string().alphanum().min(6).required().trim().messages({
     'string.empty': 'password is required',
     'string.alphanum': 'password must contain only numbers or alphabets',

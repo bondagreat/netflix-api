@@ -1,7 +1,11 @@
-const { validateRegister } = require('../validators/auth-validators');
+const {
+  validateRegister,
+  validateLogin,
+} = require('../validators/auth-validators');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-const { User } = require('../models');
+const { User, Profile } = require('../models');
 const createError = require('../utils/create-error');
 
 exports.register = async (req, res, next) => {
@@ -24,9 +28,11 @@ exports.register = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   try {
-    const value = validateRegister(req.body);
+    const value = validateLogin(req.body);
 
-    const user = await User.findOne({ where: { email: value.email } });
+    const user = await User.findOne({
+      where: { email: value.email },
+    });
     if (!user) {
       createError('invalid email or password', 400);
     }
@@ -44,4 +50,13 @@ exports.login = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
+
+exports.getMe = async (req, res, next) => {
+  const user = await User.findOne({
+    where: { id: req.user.id },
+    include: { model: Profile },
+  });
+
+  res.status(200).json({ user });
 };

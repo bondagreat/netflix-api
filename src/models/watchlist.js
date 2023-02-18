@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Watchlist = sequlize.define('Watchlist', {}, { underscored: true });
+  const Watchlist = sequelize.define('Watchlist', {}, { underscored: true });
   Watchlist.associate = (db) => {
     Watchlist.belongsTo(db.Profile, {
       foreignKey: {
@@ -17,4 +17,6 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
     });
   };
+
+  return Watchlist
 };

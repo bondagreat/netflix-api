@@ -6,7 +6,21 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: false,
+          notEmpty: true,
+        },
+      },
+      movie: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+      },
+      trailer: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
         },
       },
       release: {
@@ -20,18 +34,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
         validate: {
-          notEmpty: false,
+          notEmpty: true,
         },
       },
       description: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: true,
-        },
-      },
-      age: {
-        type: DataTypes.ENUM('ALL', '7+', '13+', '16+', '18+'),
         allowNull: false,
         validate: {
           notEmpty: true,
@@ -58,14 +65,6 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'RESTRICT',
     });
 
-    Movie.hasMany(db.MovieMainCast, {
-      foreignKey: {
-        name: 'movieId',
-        allowNull: false,
-      },
-      onDelete: 'RESTRICT',
-    });
-
     Movie.hasMany(db.MovieCast, {
       foreignKey: {
         name: 'movieId',
@@ -74,17 +73,9 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'RESTRICT',
     });
 
-    Movie.hasMany(db.MovieCategory, {
+    Movie.hasMany(db.MovieMood, {
       foreignKey: {
         name: 'movieId',
-        allowNull: false,
-      },
-      onDelete: 'RESTRICT',
-    });
-
-    Movie.belongsTo(db.Language, {
-      foreignKey: {
-        name: 'languageId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',
