@@ -53,11 +53,15 @@ exports.login = async (req, res, next) => {
 };
 
 exports.getMe = async (req, res, next) => {
-  const user = await User.findOne({
-    where: { id: req.user.id },
-    attributes: { exclude: ['password'] },
-    include: { model: Profile },
-  });
+  try {
+    const user = await User.findOne({
+      where: { id: req.user.id },
+      attributes: { exclude: ['password'] },
+      include: { model: Profile },
+    });
 
-  res.status(200).json({ user });
+    res.status(200).json({ user });
+  } catch (err) {
+    next(err);
+  }
 };

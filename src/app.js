@@ -7,7 +7,9 @@ const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
 
-const authRoute = require('./routes/authe-route');
+const authRoute = require('./routes/auth-route');
+const profileRoute = require('./routes/profile-route');
+const authenticateMiddleware = require('./middlewares/authenticate');
 const notFoundMiddleware = require('./middlewares/not-found');
 const errorMiddleware = require('./middlewares/error');
 
@@ -20,6 +22,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/auth', authRoute);
+app.use('/profile', authenticateMiddleware, profileRoute);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
