@@ -65,3 +65,15 @@ exports.getMe = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.editAccount = async (req, res, next) => {
+  try {
+    const value = req.body;
+
+    await User.update(value, { where: { id: req.user.id } });
+
+    res.status(200).json({ message: 'account update success' });
+  } catch (err) {
+    next(err);
+  }
+};

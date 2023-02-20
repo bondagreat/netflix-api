@@ -39,3 +39,18 @@ const loginSchema = Joi.object({
 });
 
 exports.validateLogin = validate(loginSchema);
+
+const pinSchema = Joi.object({
+  pin: Joi.string()
+    .pattern(/^[0-9]{4}$/)
+    .messages({
+      'string.empty': 'pin is required',
+      'string.match': 'pin must be a number',
+    }),
+  confirmPin: Joi.string().valid(Joi.ref('pin')).messages({
+    'any.only': 'pin and confirm pin did not match',
+    'string.empty': 'confirm pin is required',
+  }),
+});
+
+exports.validatePin = validate(pinSchema);

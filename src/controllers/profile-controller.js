@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { Profile } = require('../models');
 const cloudianry = require('../utils/cloudinary');
+const { validatePin } = require('../validators/auth-validators');
 
 exports.addProfile = async (req, res, next) => {
   try {
@@ -49,6 +50,18 @@ exports.deleteProfile = async (req, res, next) => {
     await Profile.destroy({ where: { id: id } });
 
     res.status(204).json();
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.editPin = async (req, res, next) => {
+  try {
+    const value = validatePin(req.body);
+
+    await Profile.update(value.pin, { where: { id: req.body.id } });
+
+    res.status(200).json({ message: 'create pin success' });
   } catch (err) {
     next(err);
   }
