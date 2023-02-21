@@ -41,6 +41,9 @@ const loginSchema = Joi.object({
 exports.validateLogin = validate(loginSchema);
 
 const pinSchema = Joi.object({
+  id: Joi.number().integer().required().messages({
+    'number.empty': 'id is required',
+  }),
   pin: Joi.string()
     .pattern(/^[0-9]{4}$/)
     .messages({

@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Transaction = sequelize.define(
-  // console.log(1111 ,Transaction);
+    // console.log(1111 ,Transaction);
     'Transaction',
     {
       paymentId: {

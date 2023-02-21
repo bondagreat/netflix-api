@@ -55,14 +55,31 @@ exports.deleteProfile = async (req, res, next) => {
   }
 };
 
-exports.editPin = async (req, res, next) => {
+exports.addPin = async (req, res, next) => {
   try {
     const value = validatePin(req.body);
 
-    await Profile.update(value.pin, { where: { id: req.body.id } });
+    await Profile.update(value, { where: { id: req.body.id } });
 
     res.status(200).json({ message: 'create pin success' });
   } catch (err) {
     next(err);
   }
 };
+
+// exports.editPin = async (req, res, next) => {
+//   try {
+//     const value = validatePin(req.body);
+
+//     const { pin } = await Profile.findOne({ where: { id: value.id } });
+//     if (value.pin === pin) {
+//       console.log(111, value);
+//       value.pin = value.newPin
+//       await Profile.update(value.pin, { where: { id: req.body.id } });
+//     }
+
+//     res.status(200).json({ message: 'create pin success' });
+//   } catch (err) {
+//     next(err);
+//   }
+// };

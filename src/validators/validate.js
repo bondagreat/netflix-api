@@ -1,7 +1,7 @@
-module.exports = schema => input => {
-  const { value, error } = schema.validate(input)
+module.exports = (schema) => (input) => {
+  const { value, error } = schema.validate(input);
   if (error) {
-    throw error
+    throw error;
   }
-  return value
-}
+  return value;
+};

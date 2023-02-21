@@ -3,7 +3,13 @@ module.exports = (sequelize, DataTypes) => {
     'Language',
     {
       name: {
-        type: DataTypes.ENUM('English', 'Thai', 'Korean', 'Japanese', 'Spanish'),
+        type: DataTypes.ENUM(
+          'English',
+          'Thai',
+          'Korean',
+          'Japanese',
+          'Spanish'
+        ),
         allowNull: false,
         validate: {
           notEmpty: true,

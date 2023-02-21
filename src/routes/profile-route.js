@@ -23,5 +23,7 @@ router.delete(
   authenticate,
   profileController.deleteProfile
 );
+router.patch('/addPin', authenticate, profileController.addPin);
+// router.patch('/editPin', authenticate, profileController.editPin);
 
 module.exports = router;
