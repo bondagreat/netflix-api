@@ -1,9 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const MovieMood = sequelize.define(
-    'MovieMood',
-    {},
-    { underscored: true }
-  );
+  const MovieMood = sequelize.define('MovieMood', {}, { underscored: true });
   MovieMood.associate = (db) => {
     MovieMood.belongsTo(db.Movie, {
       foreignKey: {
