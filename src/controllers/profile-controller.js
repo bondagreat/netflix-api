@@ -1,17 +1,38 @@
 const fs = require('fs');
-const { Profile } = require('../models');
+const { User, Profile } = require('../models');
 const cloudianry = require('../utils/cloudinary');
+const createError = require('../utils/create-error');
 const { validatePin } = require('../validators/auth-validators');
+
+exports.getProfile = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const profile = await Profile.findOne({
+      where: { userId: req.user.id, id: id },
+    });
+
+    res.status(200).json({ profile });
+  } catch (err) {
+    next(err);
+  }
+};
 
 exports.addProfile = async (req, res, next) => {
   try {
-    const input = req.body;
-    const photo = await cloudianry.upload(req.file?.path);
-    input.profileImg = photo;
-    input.userId = req.user.id;
+    const profile = await Profile.findAll({ where: { userId: req.user.id } });
 
-    await Profile.create(input);
-    fs.unlinkSync(req.file.path);
+    if (profile.length < 4) {
+      const input = req.body;
+      const photo = await cloudianry.upload(req.file?.path);
+      input.profileImg = photo;
+      input.userId = req.user.id;
+
+      await Profile.create(input);
+      fs.unlinkSync(req.file.path);
+    } else {
+      createError('profile limit is 4', 401);
+    }
 
     res.status(201).json({ message: 'create profile success' });
   } catch (err) {
@@ -55,11 +76,19 @@ exports.deleteProfile = async (req, res, next) => {
   }
 };
 
-exports.addPin = async (req, res, next) => {
+exports.editPin = async (req, res, next) => {
   try {
     const value = validatePin(req.body);
 
-    await Profile.update(value, { where: { id: req.body.id } });
+    const { pin } = await Profile.findOne({ where: { id: value.id } });
+    if (!pin) {
+      await Profile.update({ pin: value.pin }, { where: { id: value.id } });
+    }
+    if (value.oldPin === pin) {
+      await Profile.update({ pin: value.pin }, { where: { id: value.id } });
+    } else {
+      createError('old pin or new pin is incorrect', 401);
+    }
 
     res.status(200).json({ message: 'create pin success' });
   } catch (err) {
@@ -67,19 +96,18 @@ exports.addPin = async (req, res, next) => {
   }
 };
 
-// exports.editPin = async (req, res, next) => {
-//   try {
-//     const value = validatePin(req.body);
+exports.deletePin = async (req, res, next) => {
+  try {
+    const value = req.body;
 
-//     const { pin } = await Profile.findOne({ where: { id: value.id } });
-//     if (value.pin === pin) {
-//       console.log(111, value);
-//       value.pin = value.newPin
-//       await Profile.update(value.pin, { where: { id: req.body.id } });
-//     }
+    if (!value.pin) {
+      await Profile.update({ pin: value.pin }, { where: { id: value.id } });
+    } else {
+      createError('delete pin failed', 401);
+    }
 
-//     res.status(200).json({ message: 'create pin success' });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+    res.status(200).json({ message: 'delete pin success' });
+  } catch (err) {
+    next(err);
+  }
+};

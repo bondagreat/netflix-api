@@ -6,6 +6,7 @@ const upload = require('../middlewares/upload');
 
 const router = express.Router();
 
+router.get('/getProfile/:id', authenticate, profileController.getProfile);
 router.post(
   '/addProfile',
   authenticate,
@@ -23,7 +24,7 @@ router.delete(
   authenticate,
   profileController.deleteProfile
 );
-router.patch('/addPin', authenticate, profileController.addPin);
-// router.patch('/editPin', authenticate, profileController.editPin);
+router.patch('/editPin', authenticate, profileController.editPin);
+router.patch('/deletePin', authenticate, profileController.deletePin);
 
 module.exports = router;
