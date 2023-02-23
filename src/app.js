@@ -1,5 +1,5 @@
-// const { sequelize } = require('./models')
-// sequelize.sync({ force: true })
+// const { sequelize } = require('./models');
+// sequelize.sync({ force: true });
 
 require('dotenv').config();
 const express = require('express');
@@ -8,7 +8,10 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 
 const authRoute = require('./routes/auth-route');
+const packageRoute = require('./routes/package-route');
 const profileRoute = require('./routes/profile-route');
+const transactionRoute = require('./routes/transaction-route');
+const watchlistRoute = require('./routes/watchlist-route');
 const authenticateMiddleware = require('./middlewares/authenticate');
 const notFoundMiddleware = require('./middlewares/not-found');
 const errorMiddleware = require('./middlewares/error');
@@ -23,6 +26,9 @@ app.use(express.json());
 
 app.use('/auth', authRoute);
 app.use('/profile', authenticateMiddleware, profileRoute);
+app.use('/package', authenticateMiddleware, packageRoute);
+app.use('/transaction', authenticateMiddleware, transactionRoute);
+app.use('/watchlist', authenticateMiddleware, watchlistRoute);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);

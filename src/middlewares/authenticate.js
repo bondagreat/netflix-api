@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const createError = require('../utils/create-error');
-const { User } = require('../models');
+const { User, Profile } = require('../models');
 
 module.exports = async (req, res, next) => {
   try {
@@ -13,6 +13,7 @@ module.exports = async (req, res, next) => {
     const payload = jwt.verify(token, process.env.JWT_SECRET_KEY);
     const user = await User.findOne({
       where: { id: payload.id },
+      include: { model: Profile },
       attributes: {
         exclude: ['password'],
       },

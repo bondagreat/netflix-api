@@ -41,19 +41,23 @@ const loginSchema = Joi.object({
 exports.validateLogin = validate(loginSchema);
 
 const pinSchema = Joi.object({
-  id: Joi.number().integer().required().messages({
-    'number.empty': 'id is required',
-  }),
+  // id: Joi.number().integer().required().messages({
+  //   'number.empty': 'id is required',
+  // }),
+  // oldPin: Joi.string(),
   pin: Joi.string()
     .pattern(/^[0-9]{4}$/)
     .messages({
       'string.empty': 'pin is required',
       'string.match': 'pin must be a number',
     }),
-  confirmPin: Joi.string().valid(Joi.ref('pin')).messages({
-    'any.only': 'pin and confirm pin did not match',
-    'string.empty': 'confirm pin is required',
-  }),
+  confirmPin: Joi.string()
+    .valid(Joi.ref('pin'))
+    .messages({
+      'any.only': 'pin and confirm pin did not match',
+      'string.empty': 'confirm pin is required',
+    })
+    .strip(),
 });
 
-exports.validatePin = validate(pinSchema);
+exports.validatePin = validate(pinSchema, { allowUnknown: true });

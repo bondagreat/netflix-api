@@ -23,6 +23,13 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: true,
         },
       },
+      logo: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+      },
       release: {
         type: DataTypes.INTEGER,
         allowNull: false,
