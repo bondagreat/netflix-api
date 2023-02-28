@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { User, Profile } = require('../models');
+const { Profile } = require('../models');
 const cloudianry = require('../utils/cloudinary');
 const createError = require('../utils/create-error');
 const { validatePin } = require('../validators/auth-validators');
