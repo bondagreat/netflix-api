@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
 
     MovieMood.belongsTo(db.Mood, {
       foreignKey: {
-        name: 'categoryId',
+        name: 'moodId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',

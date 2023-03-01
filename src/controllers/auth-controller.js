@@ -16,6 +16,10 @@ exports.register = async (req, res, next) => {
     if (user) {
       createError('email is already in use', 400);
     }
+    const userPhone = await User.findOne({ where: { phone: value.phone } });
+    if (userPhone) {
+      createError('phone number is already in use', 400);
+    }
 
     value.password = await bcrypt.hash(value.password, 12);
     await User.create(value);
