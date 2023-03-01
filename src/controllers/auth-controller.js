@@ -1,6 +1,7 @@
 const {
   validateRegister,
   validateLogin,
+  validateStartEmail,
 } = require('../validators/auth-validators');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -73,6 +74,20 @@ exports.editAccount = async (req, res, next) => {
     await User.update(value, { where: { id: req.user.id } });
 
     res.status(200).json({ message: 'account update success' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.startEmail = async (req, res, next) => {
+  try {
+    console.log('body', req.body);
+    const value = validateStartEmail(req.body);
+    const user = await User.findOne({ where: { email: value.email } });
+    if (user) {
+      createError('email is already in use', 400);
+    }
+    res.status(201).json({ message: 'email pass' });
   } catch (err) {
     next(err);
   }
