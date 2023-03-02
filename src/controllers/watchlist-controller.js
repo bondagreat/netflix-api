@@ -7,7 +7,14 @@ exports.getWatchlist = async (req, res, next) => {
 
     const watchlist = await Watchlist.findAll({
       where: { profileId: profileId },
-      include: { model: Movie },
+      include: {
+        model: Movie,
+        include: [
+          { model: MovieCast, include: { model: Cast } },
+          { model: MovieGenre, include: { model: Genre } },
+          { model: MovieMood, include: { model: Mood } },
+        ],
+      },
     });
 
     res.status(200).json({ watchlist });
