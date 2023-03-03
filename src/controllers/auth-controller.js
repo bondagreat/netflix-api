@@ -39,6 +39,7 @@ exports.login = async (req, res, next) => {
     // console.log('dfsef', value);
     const user = await User.findOne({
       where: { email: value.email },
+      include: { model: Profile },
     });
     console.log(user);
 
@@ -64,9 +65,13 @@ exports.login = async (req, res, next) => {
 
     // ////////////////////////
 
-    const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
+    const accessToken = jwt.sign(
+      { id: user.id, Profiles: user.Profiles },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: process.env.JWT_EXPIRES_IN,
+      }
+    );
 
     res.status(200).json({ accessToken });
   } catch (err) {
