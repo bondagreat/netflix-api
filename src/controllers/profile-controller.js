@@ -81,7 +81,6 @@ exports.editPin = async (req, res, next) => {
     const value = validatePin(req.body);
 
     const { pin } = await Profile.findOne({ where: { id: value.id } });
-    console.log(111, pin);
     if (!pin) {
       await Profile.update({ pin: value.pin }, { where: { id: value.id } });
       res.status(200).json({ message: 'create pin success' });
