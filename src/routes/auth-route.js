@@ -10,4 +10,6 @@ router.post('/login', authController.login);
 router.get('/me', authenticate, authController.getMe);
 router.patch('/edit', authenticate, authController.editAccount);
 
+router.post('/startEmail', authController.startEmail);
+
 module.exports = router;

@@ -61,3 +61,12 @@ const pinSchema = Joi.object({
 });
 
 exports.validatePin = validate(pinSchema, { allowUnknown: true });
+
+const startEmailSchema = Joi.object({
+  email: Joi.string().trim().email({ tlds: false }).required().messages({
+    'string.empty': 'password is required',
+    'string.alphanum': 'password must contain only numbers or alphabets',
+    'string.min': 'password must have at least 6 characters',
+  }),
+});
+exports.validateStartEmail = validate(startEmailSchema);
