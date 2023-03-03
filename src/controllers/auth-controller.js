@@ -6,7 +6,7 @@ const {
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const { User, Profile } = require('../models');
+const { User, Profile, Transaction } = require('../models');
 const createError = require('../utils/create-error');
 
 exports.register = async (req, res, next) => {
@@ -33,11 +33,15 @@ exports.register = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   try {
+    console.log(req.body);
     const value = validateLogin(req.body);
 
+    // console.log('dfsef', value);
     const user = await User.findOne({
       where: { email: value.email },
     });
+    console.log(user);
+
     if (!user) {
       createError('invalid email or password', 400);
     }
@@ -46,6 +50,19 @@ exports.login = async (req, res, next) => {
     if (!isCorrect) {
       createError('invalid email or password', 400);
     }
+
+    // //////////////////// set token time out (not done)
+    const trans = await Transaction.findAll({
+      include: [
+        {
+          model: User,
+          where: { email: value.email },
+        },
+      ],
+    });
+    console.log(trans, 'trannn');
+
+    // ////////////////////////
 
     const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, {
       expiresIn: process.env.JWT_EXPIRES_IN,
