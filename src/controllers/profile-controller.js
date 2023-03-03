@@ -81,16 +81,18 @@ exports.editPin = async (req, res, next) => {
     const value = validatePin(req.body);
 
     const { pin } = await Profile.findOne({ where: { id: value.id } });
+    console.log(111, pin);
     if (!pin) {
       await Profile.update({ pin: value.pin }, { where: { id: value.id } });
-    }
-    if (value.oldPin === pin) {
+      res.status(200).json({ message: 'create pin success' });
+    } else if (value.oldPin === pin) {
       await Profile.update({ pin: value.pin }, { where: { id: value.id } });
+      res.status(200).json({ message: 'update pin success' });
     } else {
       createError('old pin or new pin is incorrect', 401);
     }
 
-    res.status(200).json({ message: 'create pin success' });
+    // res.status(200).json({ message: 'create pin success' });
   } catch (err) {
     next(err);
   }
