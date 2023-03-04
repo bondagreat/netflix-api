@@ -42,9 +42,10 @@ exports.addProfile = async (req, res, next) => {
 
 exports.editProfile = async (req, res, next) => {
   try {
-    const input = req.body;
+    const input = JSON.parse(req.body.input);
+
     if (req.file) {
-      const profile = await Profile.findOne({ where: { id: req.body.id } });
+      const profile = await Profile.findOne({ where: { id: input.id } });
       const profileImg = profile.profileImg;
       const profilePublicId = profileImg
         ? cloudianry.getPublicId(profileImg)
@@ -53,12 +54,16 @@ exports.editProfile = async (req, res, next) => {
       input.profileImg = photo;
     }
 
-    await Profile.update(input, { where: { id: input.id } });
+    await Profile.update(input, {
+      where: { id: input.id },
+    });
     if (req.file) {
       fs.unlinkSync(req.file.path);
     }
 
-    res.status(200).json({ message: 'profile edit success' });
+    const updatedProfile = await Profile.findOne({ where: { id: input.id } });
+
+    res.status(200).json({ updatedProfile });
   } catch (err) {
     next(err);
   }
