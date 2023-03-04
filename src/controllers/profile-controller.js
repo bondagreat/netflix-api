@@ -24,17 +24,16 @@ exports.addProfile = async (req, res, next) => {
 
     if (profile.length < 4) {
       const input = req.body;
-      const photo = await cloudianry.upload(req.file?.path);
-      input.profileImg = photo;
+      // const photo = await cloudianry.upload(req.file?.path);
+      // input.profileImg = photo;
       input.userId = req.user.id;
 
-      await Profile.create(input);
-      fs.unlinkSync(req.file.path);
+      const newProfile = await Profile.create(input);
+      // fs.unlinkSync(req.file.path);
+      res.status(201).json({ newProfile });
     } else {
       createError('profile limit is 4', 401);
     }
-
-    res.status(201).json({ message: 'create profile success' });
   } catch (err) {
     next(err);
   }
