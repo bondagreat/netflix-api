@@ -9,6 +9,7 @@ const helmet = require('helmet');
 
 const authAdminRoute = require('./routes/auth-admin-route');
 const authRoute = require('./routes/auth-route');
+const adminRoute = require('./routes/admin-route');
 const movieRoute = require('./routes/movie-route');
 const packageRoute = require('./routes/package-route');
 const profileRoute = require('./routes/profile-route');
@@ -37,6 +38,7 @@ app.use('/package', authenticateMiddleware, packageRoute);
 app.use('/transaction', authenticateMiddleware, transactionRoute);
 app.use('/movie', authenticateMiddleware, movieRoute);
 app.use('/watchlist', authenticateMiddleware, watchlistRoute);
+app.use('/admin', adminRoute);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
