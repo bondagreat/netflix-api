@@ -8,6 +8,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 
 const authRoute = require('./routes/auth-route');
+const adminRoute = require('./routes/admin-route');
 const packageRoute = require('./routes/package-route');
 const profileRoute = require('./routes/profile-route');
 const transactionRoute = require('./routes/transaction-route');
@@ -29,6 +30,7 @@ app.use('/profile', authenticateMiddleware, profileRoute);
 app.use('/package', authenticateMiddleware, packageRoute);
 app.use('/transaction', authenticateMiddleware, transactionRoute);
 app.use('/watchlist', authenticateMiddleware, watchlistRoute);
+app.use('/admin', adminRoute);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
