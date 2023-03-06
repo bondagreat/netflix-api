@@ -7,6 +7,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
 
+const authAdminRoute = require('./routes/auth-admin-route');
 const authRoute = require('./routes/auth-route');
 const movieRoute = require('./routes/movie-route');
 const packageRoute = require('./routes/package-route');
@@ -14,6 +15,7 @@ const profileRoute = require('./routes/profile-route');
 const paymentRoute = require('./routes/payment-route');
 const transactionRoute = require('./routes/transaction-route');
 const watchlistRoute = require('./routes/watchlist-route');
+const authenticateAdmin = require('./middlewares/authenticate-admin');
 const authenticateMiddleware = require('./middlewares/authenticate');
 const notFoundMiddleware = require('./middlewares/not-found');
 const errorMiddleware = require('./middlewares/error');
@@ -29,6 +31,7 @@ app.use(express.json());
 app.use('/payment', authenticateMiddleware, paymentRoute);
 
 app.use('/auth', authRoute);
+app.use('/auth-admin', authAdminRoute);
 app.use('/profile', authenticateMiddleware, profileRoute);
 app.use('/package', authenticateMiddleware, packageRoute);
 app.use('/transaction', authenticateMiddleware, transactionRoute);

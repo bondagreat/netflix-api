@@ -13,5 +13,15 @@ module.exports = (sequelize, DataTypes) => {
     { underscored: true }
   );
 
+  Age.associate = (db) => {
+    Age.hasMany(db.Movie, {
+      foreignKey: {
+        name: 'ageId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
+  };
+
   return Age;
 };

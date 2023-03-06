@@ -19,5 +19,15 @@ module.exports = (sequelize, DataTypes) => {
     { underscored: true }
   );
 
+  Language.associate = (db) => {
+    Language.belongsTo(db.Movie, {
+      foreignKey: {
+        name: 'languageId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
+  };
+
   return Language;
 };
