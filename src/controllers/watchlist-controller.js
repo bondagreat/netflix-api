@@ -3,7 +3,6 @@ const { Watchlist, Movie } = require('../models');
 exports.getWatchlist = async (req, res, next) => {
   try {
     const { profileId } = req.params;
-    console.log(111, profileId);
 
     const watchlist = await Watchlist.findAll({
       where: { profileId: profileId },

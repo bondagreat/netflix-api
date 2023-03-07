@@ -94,6 +94,22 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: 'RESTRICT',
     });
+
+    Movie.belongsTo(db.Age, {
+      foreignKey: {
+        name: 'ageId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
+
+    Movie.belongsTo(db.Language, {
+      foreignKey: {
+        name: 'languageId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
   };
 
   return Movie;
