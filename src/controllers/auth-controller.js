@@ -33,15 +33,12 @@ exports.register = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   try {
-    console.log(req.body);
     const value = validateLogin(req.body);
 
-    // console.log('dfsef', value);
     const user = await User.findOne({
       where: { email: value.email },
       include: { model: Profile },
     });
-    console.log(user);
 
     if (!user) {
       createError('invalid email or password', 400);
@@ -53,15 +50,15 @@ exports.login = async (req, res, next) => {
     }
 
     // //////////////////// set token time out (not done)
-    const trans = await Transaction.findAll({
-      include: [
-        {
-          model: User,
-          where: { email: value.email },
-        },
-      ],
-    });
-    console.log(trans, 'trannn');
+    // const trans = await Transaction.findAll({
+    //   include: [
+    //     {
+    //       model: User,
+    //       where: { email: value.email },
+    //     },
+    //   ],
+    // });
+    // console.log(trans, 'trannn');
 
     // ////////////////////////
 
@@ -107,7 +104,6 @@ exports.editAccount = async (req, res, next) => {
 
 exports.startEmail = async (req, res, next) => {
   try {
-    console.log('body', req.body);
     const value = validateStartEmail(req.body);
     const user = await User.findOne({ where: { email: value.email } });
     if (user) {
