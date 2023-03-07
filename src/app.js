@@ -38,7 +38,7 @@ app.use('/package', authenticateMiddleware, packageRoute);
 app.use('/transaction', authenticateMiddleware, transactionRoute);
 app.use('/movie', authenticateMiddleware, movieRoute);
 app.use('/watchlist', authenticateMiddleware, watchlistRoute);
-app.use('/admin', adminRoute);
+app.use('/admin', authenticateAdmin, adminRoute);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
