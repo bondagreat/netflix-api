@@ -1,5 +1,5 @@
-const cron = require('node-cron');
-const { Transaction } = require('../models');
+// const cron = require('node-cron');
+const { Transaction, User } = require('../models');
 const omise = require('omise')({
   secretKey: process.env.OMISE_SECRET_KEY,
 });
@@ -64,6 +64,7 @@ exports.createCus = async (req, res, next) => {
             packageId: req.body.plan,
             userId: req.user.id,
           });
+          User.update({ isActive: 1 }, { where: { id: req.user.id } });
         }
         return;
       }

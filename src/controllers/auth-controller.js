@@ -53,15 +53,15 @@ exports.login = async (req, res, next) => {
     }
 
     // //////////////////// set token time out (not done)
-    const trans = await Transaction.findAll({
-      include: [
-        {
-          model: User,
-          where: { email: value.email },
-        },
-      ],
-    });
-    console.log(trans, 'trannn');
+    // const trans = await Transaction.findAll({
+    //   include: [
+    //     {
+    //       model: User,
+    //       where: { email: value.email },
+    //     },
+    //   ],
+    // });
+    // console.log(trans, 'trannn');
 
     // ////////////////////////
 
