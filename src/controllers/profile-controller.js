@@ -24,17 +24,16 @@ exports.addProfile = async (req, res, next) => {
 
     if (profile.length < 4) {
       const input = req.body;
-      const photo = await cloudianry.upload(req.file?.path);
-      input.profileImg = photo;
+      // const photo = await cloudianry.upload(req.file?.path);
+      // input.profileImg = photo;
       input.userId = req.user.id;
 
-      await Profile.create(input);
-      fs.unlinkSync(req.file.path);
+      const newProfile = await Profile.create(input);
+      // fs.unlinkSync(req.file.path);
+      res.status(201).json({ newProfile });
     } else {
       createError('profile limit is 4', 401);
     }
-
-    res.status(201).json({ message: 'create profile success' });
   } catch (err) {
     next(err);
   }
@@ -42,9 +41,10 @@ exports.addProfile = async (req, res, next) => {
 
 exports.editProfile = async (req, res, next) => {
   try {
-    const input = req.body;
+    const input = JSON.parse(req.body.input);
+
     if (req.file) {
-      const profile = await Profile.findOne({ where: { id: req.body.id } });
+      const profile = await Profile.findOne({ where: { id: input.id } });
       const profileImg = profile.profileImg;
       const profilePublicId = profileImg
         ? cloudianry.getPublicId(profileImg)
@@ -53,12 +53,16 @@ exports.editProfile = async (req, res, next) => {
       input.profileImg = photo;
     }
 
-    await Profile.update(input, { where: { id: input.id } });
+    await Profile.update(input, {
+      where: { id: input.id },
+    });
     if (req.file) {
       fs.unlinkSync(req.file.path);
     }
 
-    res.status(200).json({ message: 'profile edit success' });
+    const updatedProfile = await Profile.findOne({ where: { id: input.id } });
+
+    res.status(200).json({ updatedProfile });
   } catch (err) {
     next(err);
   }
@@ -83,14 +87,15 @@ exports.editPin = async (req, res, next) => {
     const { pin } = await Profile.findOne({ where: { id: value.id } });
     if (!pin) {
       await Profile.update({ pin: value.pin }, { where: { id: value.id } });
-    }
-    if (value.oldPin === pin) {
+      res.status(200).json({ message: 'create pin success' });
+    } else if (value.oldPin === pin) {
       await Profile.update({ pin: value.pin }, { where: { id: value.id } });
+      res.status(200).json({ message: 'update pin success' });
     } else {
       createError('old pin or new pin is incorrect', 401);
     }
 
-    res.status(200).json({ message: 'create pin success' });
+    // res.status(200).json({ message: 'create pin success' });
   } catch (err) {
     next(err);
   }

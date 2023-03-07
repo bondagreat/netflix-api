@@ -33,15 +33,12 @@ exports.register = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   try {
-    console.log(req.body);
     const value = validateLogin(req.body);
 
-    // console.log('dfsef', value);
     const user = await User.findOne({
       where: { email: value.email },
       include: { model: Profile },
     });
-    console.log(user);
 
     if (!user) {
       createError('invalid email or password', 400);
@@ -107,7 +104,6 @@ exports.editAccount = async (req, res, next) => {
 
 exports.startEmail = async (req, res, next) => {
   try {
-    console.log('body', req.body);
     const value = validateStartEmail(req.body);
     const user = await User.findOne({ where: { email: value.email } });
     if (user) {
