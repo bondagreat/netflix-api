@@ -12,6 +12,8 @@ router.get('/me', authenticate, authController.getMe);
 router.patch('/edit', authenticate, authController.editAccount);
 
 router.patch('/changePassword', authenticate, userController.updatePassword);
+router.patch('/changeEmail', authenticate, userController.updateEmail);
+router.patch('/changePhone', authenticate, userController.updatePhone);
 
 router.post('/startEmail', authController.startEmail);
 
