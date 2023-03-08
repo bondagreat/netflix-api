@@ -14,6 +14,7 @@ router.get('/getGenre', authenticateAdmin, adminController.getGenre);
 router.get('/getCast', authenticateAdmin, adminController.getCast);
 router.get('/getAge', authenticateAdmin, adminController.getAge);
 router.get('/getLanguage', authenticateAdmin, adminController.getLanguage);
+
 router.post('/addMovie', authenticateAdmin, adminController.addMovie);
 router.patch(
   '/addCover',
@@ -39,6 +40,7 @@ router.patch(
   uploadVideo.single('video'),
   adminController.addTrailer
 );
+
 router.delete(
   '/deleteMovie/:id',
   authenticateAdmin,

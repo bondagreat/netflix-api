@@ -45,11 +45,21 @@ exports.getAllMovie = async (req, res, next) => {
       include: [
         {
           model: MovieGenre,
-          include: [
-            {
-              model: Genre,
-            },
-          ],
+          include: {
+            model: Genre,
+          },
+        },
+        {
+          model: MovieCast,
+          include: {
+            model: Cast,
+          },
+        },
+        {
+          model: MovieMood,
+          include: {
+            model: Mood,
+          },
         },
       ],
     });
