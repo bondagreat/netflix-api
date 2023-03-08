@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Language.associate = (db) => {
-    Language.belongsTo(db.Movie, {
+    Language.hasMany(db.Movie, {
       foreignKey: {
         name: 'languageId',
         allowNull: false,
