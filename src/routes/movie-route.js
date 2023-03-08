@@ -6,5 +6,6 @@ const authenticate = require('../middlewares/authenticate');
 const router = express.Router();
 
 router.get('/getAllMovie', authenticate, movieController.getAllMovie);
+router.get('/stream/:videoName', authenticate, movieController.streaming);
 
 module.exports = router;
