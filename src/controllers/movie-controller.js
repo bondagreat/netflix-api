@@ -1,3 +1,4 @@
+const fs = require('fs');
 const {
   Movie,
   MovieCast,
@@ -22,4 +23,17 @@ exports.getAllMovie = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
+
+exports.streaming = (req, res) => {
+  const path = `private/videos/${req.params.videoName}`;
+  console.log(path, req.params, 'test');
+  const stat = fs.statSync(path);
+  const fileSize = stat.size;
+  const head = {
+    'Content-Length': fileSize,
+    'Content-Type': 'video/mp4',
+  };
+  res.writeHead(200, head);
+  fs.createReadStream(path).pipe(res);
 };
