@@ -1,5 +1,5 @@
-// const { sequelize } = require('./models');
-// sequelize.sync({ alter: true });
+// const { Movie } = require('./models');
+// Movie.sync({ alter: true });
 
 require('dotenv').config();
 const fs = require('fs');

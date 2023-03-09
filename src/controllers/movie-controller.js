@@ -7,6 +7,8 @@ const {
   Genre,
   MovieMood,
   Mood,
+  Age,
+  Language,
 } = require('../models');
 
 exports.getAllMovie = async (req, res, next) => {
@@ -16,6 +18,8 @@ exports.getAllMovie = async (req, res, next) => {
         { model: MovieCast, include: { model: Cast } },
         { model: MovieGenre, include: { model: Genre } },
         { model: MovieMood, include: { model: Mood } },
+        { model: Age },
+        { model: Language },
       ],
     });
 
